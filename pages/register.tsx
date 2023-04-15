@@ -4,15 +4,27 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Button, Checkbox, Form, Input } from "antd";
 import LayoutMain from "@/component/Layout/LayoutMain";
+import { useMutation } from "@tanstack/react-query";
+import { RegisterPayload } from "../models";
+import { registerAccount } from "../api/auth-api";
 export default function RegisterPage(props: any) {
-  const onFinish = (values: any) => {
-    console.log("Success:", values);
+  const registerAccountMutation = useMutation({
+    mutationFn: (body: RegisterPayload) => registerAccount(body),
+  });
+  const onFinish = (values: RegisterPayload) => {
+    registerAccountMutation.mutate(values, {
+      onSuccess: (data) => {
+        console.log(data);
+      },
+      onError: (data) => {
+        console.log(data);
+      },
+    });
   };
 
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
-
   return (
     <LayoutMain>
       <Head>
