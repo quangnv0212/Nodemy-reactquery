@@ -1,4 +1,4 @@
-# Dự án Ecommerce NextJS/Typescript
+# Dự án Ecommerce NextJS/Typescript/ReactQuery
 
 ## Chức năng trong dự án
 
@@ -28,8 +28,8 @@
 ## Công nghệ sử dụng
 
 - UI / CSS Library: Tailwindcss + HeadlessUI
-- State Management: React Query cho async state và React Context cho state thường
-- Form Management: React Hook Form
+- State Management: React Query cho async state và Redux Toolkit cho state thường
+- Form Management: React Hook Form, Ant Design
 - API: Strapi
 - Hỗ trợ đa ngôn ngữ với react.i18next
 - Hỗ trợ SEO
