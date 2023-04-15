@@ -3,6 +3,8 @@ import { Manrope } from "next/font/google";
 import axios from "axios";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "../styles/globals.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const manrope = Manrope({
   weight: ["400", "500", "600", "700"],
@@ -22,6 +24,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <Component {...pageProps} />
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
+      <ToastContainer />
     </div>
   );
 }
