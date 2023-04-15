@@ -5,7 +5,7 @@ class Http {
   instance: AxiosInstance;
   constructor() {
     this.instance = axios.create({
-      baseURL: "http://localhost:1337",
+      baseURL: "https://backoffice.nodemy.vn/",
       timeout: 10000,
       headers: {
         "Content-Type": "application/json",

@@ -5,13 +5,19 @@ import { useForm } from "react-hook-form";
 import { Button, Checkbox, Form, Input } from "antd";
 import { LoginPayload } from "../models";
 import LayoutMain from "@/component/Layout/LayoutMain";
+import { useMutation } from "@tanstack/react-query";
+import authApi from "../api/auth-api";
 export default function LoginPage(props: any) {
-  const onFinish = async (values: LoginPayload) => {
-    try {
-      console.log(values);
-    } catch (err: unknown) {
-      console.log(err);
-    }
+  const loginAccountMutation = useMutation({
+    mutationFn: (body: LoginPayload) => authApi.login(body),
+  });
+  const onFinish = (values: LoginPayload) => {
+    loginAccountMutation.mutate(values, {
+      onSuccess: (data) => {
+        console.log(data);
+      },
+      onError: (error) => {},
+    });
   };
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);

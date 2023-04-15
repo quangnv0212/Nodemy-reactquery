@@ -1,5 +1,12 @@
-import { AuthResponse, RegisterPayload } from "../models";
+import { AuthResponse, LoginPayload, RegisterPayload } from "../models";
 import http from "../utils/http";
 
-export const registerAccount = (body: RegisterPayload) =>
-  http.post<AuthResponse>("api/auth/local/register", body);
+const authApi = {
+  registerAccount: (body: RegisterPayload) =>
+    http.post<AuthResponse>("api/auth/local/register", body),
+  login: (body: LoginPayload) =>
+    http.post<AuthResponse>("api/auth/local", body),
+  logout: () => http.post("/logout"),
+};
+
+export default authApi;

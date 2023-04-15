@@ -6,19 +6,17 @@ import { Button, Checkbox, Form, Input } from "antd";
 import LayoutMain from "@/component/Layout/LayoutMain";
 import { useMutation } from "@tanstack/react-query";
 import { RegisterPayload } from "../models";
-import { registerAccount } from "../api/auth-api";
+import authApi from "../api/auth-api";
 export default function RegisterPage(props: any) {
   const registerAccountMutation = useMutation({
-    mutationFn: (body: RegisterPayload) => registerAccount(body),
+    mutationFn: (body: RegisterPayload) => authApi.registerAccount(body),
   });
   const onFinish = (values: RegisterPayload) => {
     registerAccountMutation.mutate(values, {
       onSuccess: (data) => {
         console.log(data);
       },
-      onError: (data) => {
-        console.log(data);
-      },
+      onError: (error) => {},
     });
   };
 
