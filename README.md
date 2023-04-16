@@ -35,3 +35,5 @@
 - Hỗ trợ SEO
 - Mô hình hóa các component với story book
 - Unit Test
+
+// Khi chuyển trang nó tự fetch các data về thay vì phải đi bấm vào từng cái

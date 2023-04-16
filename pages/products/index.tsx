@@ -29,7 +29,6 @@ export default function ProductListPage({
     },
     initialData: productListResponse,
   });
-
   const handleNextPage = () => {
     router.push({
       query: {
@@ -66,7 +65,6 @@ export default function ProductListPage({
       },
     });
   };
-
   return (
     <LayoutMain>
       Sắp xếp theo

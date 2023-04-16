@@ -10,7 +10,7 @@ type SeoProps = {
   };
 };
 
-export default function SeoComponent({ data }: SeoProps) {
+export default function Seo({ data }: SeoProps) {
   const { title, description, thumbnailUrl, url } = data;
   return (
     <Head>
