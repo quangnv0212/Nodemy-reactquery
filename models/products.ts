@@ -11,6 +11,7 @@ export interface Product {
     oldPrice: string;
     quantityAvailable: number;
     price: string;
+    slug: string;
     image: {
       data: Image[];
     };

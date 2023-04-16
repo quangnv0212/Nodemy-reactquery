@@ -5,24 +5,31 @@ import React, { useState } from "react";
 import productApi from "../../api/product-api";
 import { Product, ProductListConfig } from "@/models/products";
 import { Pagination, PaginationProps, Select } from "antd";
-
-export default function ProductListPage(props: any) {
+import Link from "next/link";
+import { GetStaticProps } from "next";
+import { ResponseApi } from "@/models/utils";
+interface IProductListPage {
+  productListResponse: ResponseApi<Product>;
+}
+export default function ProductListPage({
+  productListResponse,
+}: IProductListPage) {
   const router = useRouter();
   const { page, pageSize, sort } = router.query;
-
   const editQuery = {
     populate: "*",
     "pagination[page]": router.query.page || 1,
     "pagination[pageSize]": router.query.pageSize || 3,
     sort,
   };
-  const { data } = useQuery({
+  const { data } = useQuery<any>({
     queryKey: ["products", editQuery],
     queryFn: () => {
       return productApi.getProduct(editQuery as ProductListConfig);
     },
+    initialData: productListResponse,
   });
-  console.log(data);
+
   const handleNextPage = () => {
     router.push({
       query: {
@@ -74,8 +81,10 @@ export default function ProductListPage(props: any) {
           { value: "price:desc", label: "Giá giảm dần" },
         ]}
       />
-      {data?.data.map((product: any) => (
-        <p key={product.id}>{product.attributes.name}</p>
+      {data?.data.map((product: Product) => (
+        <Link href={`/products/${product.attributes.slug}`} key={product.id}>
+          <p>{product.attributes.name}</p>
+        </Link>
       ))}
       <button
         className="m-2 rounded-lg bg-blue-300 p-2"
@@ -103,3 +112,19 @@ export default function ProductListPage(props: any) {
     </LayoutMain>
   );
 }
+
+export const getStaticProps: GetStaticProps<{
+  productListResponse: ResponseApi<any>;
+}> = async (context) => {
+  const res = await productApi.getProduct({
+    populate: "*",
+    "pagination[page]": 1,
+    "pagination[pageSize]": 3,
+  });
+  const productListResponse = await res;
+  return {
+    props: {
+      productListResponse,
+    },
+  };
+};
