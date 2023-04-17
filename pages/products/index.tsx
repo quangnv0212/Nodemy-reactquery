@@ -8,6 +8,8 @@ import { Pagination, PaginationProps, Select } from "antd";
 import Link from "next/link";
 import { GetStaticProps } from "next";
 import { ResponseApi } from "@/models/utils";
+import { useAppDispatch, useAppSelector } from "../../app/hook";
+import { increment } from "../../features/counter/counterSlice";
 interface IProductListPage {
   productListResponse: ResponseApi<Product>;
 }
@@ -68,8 +70,15 @@ export default function ProductListPage({
       },
     });
   };
+  const productListRedux = useAppSelector((state) => state.counter);
+  const handleDispatch = () => {
+    dispatch(increment(productListResponse.data));
+  };
+  const dispatch = useAppDispatch();
   return (
     <>
+      <p>{JSON.stringify(productListRedux)}</p>
+      <button onClick={handleDispatch}>Dispatch</button>
       Sắp xếp theo
       <Select
         placeholder="Sắp xếp theo"
@@ -88,14 +97,14 @@ export default function ProductListPage({
         </Link>
       ))}
       <button
-        className="m-2 rounded-lg bg-blue-300 p-2"
+        className="p-2 m-2 bg-blue-300 rounded-lg"
         onClick={handlePrePage}
       >
         Previous
       </button>
       <span>1</span>
       <button
-        className="m-2 rounded-lg bg-blue-300 p-2"
+        className="p-2 m-2 bg-blue-300 rounded-lg"
         onClick={handleNextPage}
       >
         Next

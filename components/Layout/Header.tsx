@@ -6,8 +6,9 @@ import SearchInput from "../SearchInput";
 import authApi from "../../api/auth-api";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import useAuth from "@/hooks/use-auth";
+
 import Cookies from "js-cookie";
+import { useAppDispatch, useAppSelector } from "../../app/hook";
 type HeaderProps = {};
 
 export default function Header(props: HeaderProps) {
@@ -20,9 +21,13 @@ export default function Header(props: HeaderProps) {
     retry: false,
   });
   const currentUser: any = user;
+  const count = useAppSelector((state) => state.counter);
+  const productList = useAppSelector((state) => state.counter);
+  console.log(productList.length);
+
   return (
     <header className="h-[70px] bg-slate-900 py-5">
-      <div className="mx-auto max-w-7xl px-4">
+      <div className="px-4 mx-auto max-w-7xl">
         <nav className="flex justify-between">
           <Link href={"/"}>
             <Image
@@ -40,7 +45,7 @@ export default function Header(props: HeaderProps) {
               alt="ava"
               width={40}
               height={40}
-              className="h-10 w-10 rounded-full object-cover"
+              className="object-cover w-10 h-10 rounded-full"
             ></Image>
             {user && (
               <div className="flex flex-col">
@@ -50,6 +55,10 @@ export default function Header(props: HeaderProps) {
                 <span className="text-gray-100">Admin User</span>
               </div>
             )}
+            {/* {JSON.stringify(productList)} */}
+            <p className="text-white">
+              Số lượng: {JSON.stringify(productList.length)}
+            </p>
           </div>
         </nav>
       </div>
