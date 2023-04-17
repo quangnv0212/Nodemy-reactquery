@@ -6,7 +6,13 @@ const authApi = {
     http.post<AuthResponse>("api/auth/local/register", body),
   login: (body: LoginPayload) =>
     http.post<AuthResponse>("api/auth/local", body),
-  logout: () => http.post("/logout"),
+  getMe: (token: string) =>
+    http.get("/api/users/me", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+  // logout: () => http.post("/logout"),
 };
 
 export default authApi;

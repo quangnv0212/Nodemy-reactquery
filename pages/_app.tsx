@@ -6,6 +6,7 @@ import "../styles/globals.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import LayoutMain from "@/component/Layout/LayoutMain";
 const manrope = Manrope({
   weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
@@ -19,12 +20,17 @@ const queryClient = new QueryClient({
 });
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <div className={manrope.className}>
-      <QueryClientProvider client={queryClient}>
-        <Component {...pageProps} />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-      <ToastContainer />
-    </div>
+    <>
+      <div className={manrope.className}>
+        <QueryClientProvider client={queryClient}>
+          <LayoutMain>
+            <Component {...pageProps} />
+            <ReactQueryDevtools initialIsOpen={false} />
+
+            <ToastContainer />
+          </LayoutMain>
+        </QueryClientProvider>
+      </div>
+    </>
   );
 }

@@ -1,29 +1,22 @@
 import Head from "next/head";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Checkbox, Form, Input } from "antd";
 import { LoginPayload } from "../models";
 import LayoutMain from "@/component/Layout/LayoutMain";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import authApi from "../api/auth-api";
+import Cookies from "js-cookie";
 export default function LoginPage(props: any) {
-  const loginAccountMutation = useMutation({
-    mutationFn: (body: LoginPayload) => authApi.login(body),
-  });
-  const onFinish = (values: LoginPayload) => {
-    loginAccountMutation.mutate(values, {
-      onSuccess: (data) => {
-        console.log(data);
-      },
-      onError: (error) => {},
-    });
-  };
+  const onFinish = (values: LoginPayload) => {};
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
+  const token = Cookies.get("accessToken")!;
+
   return (
-    <LayoutMain>
+    <>
       <Head>
         <title>Đăng nhập</title>
         <meta name="description" content="Đăng nhập tài khoản" />
@@ -66,9 +59,15 @@ export default function LoginPage(props: any) {
         </Form.Item>
       </Form>
       <Link href={"/register"}>Chuyển sang trang đăng ký</Link>
-      <Button type="ghost" htmlType="submit">
+      <Button
+        type="ghost"
+        htmlType="submit"
+        onClick={() => {
+          Cookies.remove("accessToken");
+        }}
+      >
         Log out
       </Button>
-    </LayoutMain>
+    </>
   );
 }

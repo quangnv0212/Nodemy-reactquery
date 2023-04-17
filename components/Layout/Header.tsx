@@ -1,11 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import logo from "../assets/logo_ngang.png";
 import SearchInput from "../SearchInput";
+import authApi from "../../api/auth-api";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/router";
+import useAuth from "@/hooks/use-auth";
+import Cookies from "js-cookie";
 type HeaderProps = {};
 
 export default function Header(props: HeaderProps) {
+  const token = Cookies.get("accessToken")!;
+  const { data: user } = useQuery({
+    queryKey: ["me"],
+    queryFn: () => {
+      return authApi.getMe(token);
+    },
+    retry: false,
+  });
+  const currentUser: any = user;
   return (
     <header className="h-[70px] bg-slate-900 py-5">
       <div className="mx-auto max-w-7xl px-4">
@@ -28,12 +42,14 @@ export default function Header(props: HeaderProps) {
               height={40}
               className="h-10 w-10 rounded-full object-cover"
             ></Image>
-            <div className="flex flex-col">
-              <span className="text-sm font-semibold text-white ">
-                Vu Quang
-              </span>
-              <span className="text-gray-100">Admin User</span>
-            </div>
+            {user && (
+              <div className="flex flex-col">
+                <span className="text-sm font-semibold text-white ">
+                  {currentUser.username}
+                </span>
+                <span className="text-gray-100">Admin User</span>
+              </div>
+            )}
           </div>
         </nav>
       </div>

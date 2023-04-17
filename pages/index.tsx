@@ -5,5 +5,5 @@ import LayoutMain from "@/component/Layout/LayoutMain";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  return <LayoutMain>Home Page</LayoutMain>;
+  return <>Home Page</>;
 }

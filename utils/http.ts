@@ -1,28 +1,20 @@
 import axios, { AxiosError, AxiosInstance } from "axios";
 import { HttpStatusCode } from "../constant/httpStatusCode.enum";
 import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 class Http {
   instance: AxiosInstance;
+  private accessToken: string;
   constructor() {
+    this.accessToken = Cookies.get("accessToken")!;
     this.instance = axios.create({
       baseURL: "https://backoffice.nodemy.vn/",
       timeout: 10000,
       headers: {
         "Content-Type": "application/json",
+        // Authorization: `Bearer ${this.accessToken}`,
       },
     });
-    // Add a request interceptor
-    this.instance.interceptors.request.use(
-      function (config) {
-        // Do something before request is sent
-        return config;
-      },
-      function (error) {
-        // Do something with request error
-        return Promise.reject(error);
-      }
-    );
-
     // Add a response interceptor
     this.instance.interceptors.response.use(
       function (response) {
@@ -35,7 +27,7 @@ class Http {
         // Do something with response error
         const message: any =
           error?.response?.data?.error?.message || "Lỗi server";
-        toast.error(message);
+        // toast.error(message);
         return Promise.reject(error);
       }
     );

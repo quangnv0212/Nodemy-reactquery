@@ -69,7 +69,7 @@ export default function ProductListPage({
     });
   };
   return (
-    <LayoutMain>
+    <>
       Sắp xếp theo
       <Select
         placeholder="Sắp xếp theo"
@@ -111,7 +111,7 @@ export default function ProductListPage({
           { value: "4", label: "4 sản phẩm/trang" },
         ]}
       />
-    </LayoutMain>
+    </>
   );
 }
 
