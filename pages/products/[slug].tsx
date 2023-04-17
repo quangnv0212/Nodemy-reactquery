@@ -14,10 +14,10 @@ type ProductDetailPage = {
 };
 
 export default function BlogPage({ product }: ProductDetailPage) {
+  const router = useRouter();
+  if (router.isFallback) return <p>Loading...</p>;
   if (!product) return null;
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const router = useRouter();
-  console.log(product);
   const { slug } = router.query;
   if (!slug) return;
   const { data } = useQuery<any>({
@@ -61,15 +61,20 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps<{
   product: ResponseApi<any>;
 }> = async (context) => {
-  const { data: productList } = await productApi.getProduct({ populate: "*" });
-  const slug = context.params?.slug;
-  if (!slug) return { notFound: true };
-  const product = await productApi.getProductDetail(slug.toString());
-  if (!product) return { notFound: true };
-  return {
-    props: {
-      product,
-    },
-    revalidate: 60,
-  };
+  try {
+    const { data: productList } = await productApi.getProduct({
+      populate: "*",
+    });
+    const slug = context.params?.slug;
+    if (!slug) return { notFound: true };
+    const product = await productApi.getProductDetail(slug.toString());
+    return {
+      props: {
+        product,
+      },
+      revalidate: 60,
+    };
+  } catch (error) {
+    return { notFound: true };
+  }
 };

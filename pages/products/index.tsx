@@ -15,7 +15,8 @@ export default function ProductListPage({
   productListResponse,
 }: IProductListPage) {
   const router = useRouter();
-  const { page, pageSize, sort } = router.query;
+  const { page: pageIndex, pageSize, sort } = router.query;
+  const page = Number(pageIndex) || 1;
   const editQuery = {
     populate: "*",
     "pagination[page]": router.query.page || 1,
@@ -29,22 +30,24 @@ export default function ProductListPage({
     },
     initialData: productListResponse,
   });
+  const { total } = data.meta.pagination;
+  const totalPage = Math.ceil(total / (Number(pageSize) || 3));
   const handleNextPage = () => {
     router.push({
       query: {
         ...router.query,
-        page: Number(page) + 1 || 1,
+        page: page + 1,
       },
     });
   };
   const handlePrePage = () => {
-    if (page && Number(page) === 1) {
+    if (page === 1) {
       return;
     } else {
       router.push({
         query: {
           ...router.query,
-          page: Number(page) - 1,
+          page: page - 1,
         },
       });
     }
@@ -90,6 +93,7 @@ export default function ProductListPage({
       >
         Previous
       </button>
+      <span>1</span>
       <button
         className="m-2 rounded-lg bg-blue-300 p-2"
         onClick={handleNextPage}

@@ -1,4 +1,4 @@
-import { ResponseApi } from "@/models/utils";
+import { ResponseApi, ResponseApiDetail } from "@/models/utils";
 import { Product, ProductListConfig, ProductRespone } from "../models";
 import http from "../utils/http";
 
@@ -8,7 +8,10 @@ const productApi = {
     return http.get<ResponseApi<Product>>(URL, { params });
   },
   getProductDetail(slug: string) {
-    return http.get<ResponseApi<Product>>(`${URL}/${slug}`);
+    return http.get<ResponseApiDetail<Product>>(`${URL}/${slug}`);
+  },
+  addProduct(body: any) {
+    return http.post<ResponseApiDetail<Product>>(URL, body);
   },
 };
 
